@@ -1,12 +1,11 @@
 package br.com.uniamerica.pizzaria.pizarria.DTO_Test;
 import br.com.uniamerica.pizzaria.pizarria.dto.UsuarioDTO;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class UsuarioTest {
+class UsuarioTestDTO {
 
     UsuarioDTO usuario = new UsuarioDTO("Gustavo");
     UsuarioDTO usuario4 = new UsuarioDTO();

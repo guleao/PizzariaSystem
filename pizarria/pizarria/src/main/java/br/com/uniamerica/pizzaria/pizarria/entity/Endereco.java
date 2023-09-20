@@ -28,5 +28,17 @@ public class Endereco {
     @Column (name = "cep")
     private String cep;
 
+    @Column(name = "observ")
+    private String observ;
 
+    public Endereco(){
+
+    }
+    public Endereco(Long id, String rua, String bairro, int numCasa, String cep) {
+        this.id = id;
+        this.rua = rua;
+        this.bairro = bairro;
+        this.numCasa = numCasa;
+        this.cep = cep;
+    }
 }
