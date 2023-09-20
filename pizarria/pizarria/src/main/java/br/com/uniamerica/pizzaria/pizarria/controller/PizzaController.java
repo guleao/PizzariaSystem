@@ -1,4 +1,4 @@
-package br.com.uniamerica.pizzaria.pizarria.entity.controller;
+package br.com.uniamerica.pizzaria.pizarria.controller;
 
 import br.com.uniamerica.pizzaria.pizarria.dto.PizzaDTO;
 import br.com.uniamerica.pizzaria.pizarria.entity.PizzaEntity;
