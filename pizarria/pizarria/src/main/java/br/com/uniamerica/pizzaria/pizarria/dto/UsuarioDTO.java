@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class UsuarioDTO {
+public class UsuarioDTO{
     private Long id;
 
     private String nomeUsuario;
@@ -17,4 +17,11 @@ public class UsuarioDTO {
     private String telefone;
 
     private List<Endereco> enderecos;
+
+    public UsuarioDTO(){
+
+    }
+    public UsuarioDTO(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
+    }
 }

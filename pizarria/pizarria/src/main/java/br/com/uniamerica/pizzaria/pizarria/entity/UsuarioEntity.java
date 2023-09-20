@@ -42,6 +42,16 @@ public class UsuarioEntity {
     @JoinColumn(name = "endereco_id")
     private List<Endereco> enderecos;
 
+    public UsuarioEntity(){
+    }
+
+    public UsuarioEntity(Long id, String nomeUsuario, Login login, String telefone, List<Endereco> enderecos) {
+        this.id = id;
+        this.nomeUsuario = nomeUsuario;
+        this.login = login;
+        this.telefone = telefone;
+        this.enderecos = enderecos;
+    }
 }
 
 
