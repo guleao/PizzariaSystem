@@ -14,7 +14,7 @@ public class Login {
     private Long id;
 
     @Column (name = "login")
-    private String login;
+    private String loginUsuario;
 
     @Column (name = "senha")
     private String senha;

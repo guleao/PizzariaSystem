@@ -1,6 +1,5 @@
 package br.com.uniamerica.pizzaria.pizarria.dto;
 
-import br.com.uniamerica.pizzaria.pizarria.entity.UsuarioEntity;
 import lombok.Data;
 
 @Data

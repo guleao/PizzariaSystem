@@ -4,7 +4,6 @@ import br.com.uniamerica.pizzaria.pizarria.entity.*;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data

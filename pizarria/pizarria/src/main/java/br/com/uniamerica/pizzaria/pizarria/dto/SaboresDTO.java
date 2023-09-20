@@ -5,5 +5,5 @@ import lombok.Data;
 public class SaboresDTO {
     private Long id;
 
-    private String NomeSabor;
+    private String nomeSabor;
 }
