@@ -9,6 +9,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/endereco")
 public class EnderecoController {
@@ -28,12 +30,12 @@ public class EnderecoController {
     }
 
     @GetMapping("/lista")
-    public ResponseEntity<?> listaCompleta() {
+    public ResponseEntity<List<Endereco>> listaCompleta() {
         return ResponseEntity.ok(this.enderecoRepository.findAll());
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastraEndereco (@RequestBody final EnderecoDTO enderecoDTO) {
+    public ResponseEntity<String> cadastraEndereco (@RequestBody final EnderecoDTO enderecoDTO) {
         try {
             this.enderecoService.validaEndereco(enderecoDTO);
             return ResponseEntity.ok("Endereco cadastrado com sucesso.");
@@ -45,7 +47,7 @@ public class EnderecoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editarEndereco (@PathVariable("id") final Long id, @RequestBody final Endereco endereco) {
+    public ResponseEntity<String> editarEndereco (@PathVariable("id") final Long id, @RequestBody final Endereco endereco) {
         try {
             this.enderecoService.editaEndereco(id,endereco);
             return ResponseEntity.ok("Endereco atualizado com sucesso. ");
@@ -57,7 +59,7 @@ public class EnderecoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletaEndereco (@PathVariable("id") final Long id) {
+    public ResponseEntity<String> deletaEndereco (@PathVariable("id") final Long id) {
         try {
             this.enderecoService.deletaEndereco(id);
             return ResponseEntity.ok("Endereco excluido com sucesso.");

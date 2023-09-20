@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/pedido")
@@ -31,17 +32,10 @@ public class PedidoController {
     }
 
     @GetMapping("/lista")
-    public ResponseEntity<?> listaCompleta() {
+    public ResponseEntity<List<PedidoEntity>> listaCompleta() {
         return ResponseEntity.ok(this.pedidoRepository.findAll());
     }
 
-
-//    @GetMapping("/totaldia")
-//    public Long getTotalPedidosPorData(@RequestParam("data") LocalDate data) {
-//        return pedidoService.getPedidosPorData(data);
-//    }
-
-//    localhost:8080/api/pedido/totaldia?data=2023-09-18
     @GetMapping("/totaldia")
     public RelatorioDiaDTO getTotalPedidosPorData(@RequestParam("data") LocalDate data) {
         Long totalPedidos = pedidoService.TotalPedidosPorData(data);
@@ -77,7 +71,7 @@ public class PedidoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrarPedido (@RequestBody final PedidoDTO pedido, final Long id) {
+    public ResponseEntity<String> cadastrarPedido (@RequestBody final PedidoDTO pedido, final Long id) {
         try {
             this.pedidoService.validaPedido(pedido);
             return ResponseEntity.ok("Pedido realizado com sucesso.");
@@ -89,7 +83,7 @@ public class PedidoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editarPedido (@PathVariable("id") final Long id, @RequestBody final PedidoEntity pedido) {
+    public ResponseEntity<String> editarPedido (@PathVariable("id") final Long id, @RequestBody final PedidoEntity pedido) {
         try {
             this.pedidoService.editaPedido(pedido);
             return ResponseEntity.ok("Pedido atualizado com sucesso. ");
@@ -101,7 +95,7 @@ public class PedidoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletarPedido (@PathVariable("id") final Long id) {
+    public ResponseEntity<String> deletarPedido (@PathVariable("id") final Long id) {
         try {
             this.pedidoService.deletarPedido(id);
             return ResponseEntity.ok("Pedido excluido com sucesso.");

@@ -21,14 +21,14 @@ public class LoginService {
         var login = new Login();
         BeanUtils.copyProperties(loginDTO,login);
 
-        Assert.isTrue(!login.getLoginUsuario().equals(""), "Login não pode ser nulo");
+        Assert.isTrue(!login.getLogin().equals(""), "Login não pode ser nulo");
         Assert.isTrue(!login.getSenha().equals(""), "Senha não pode ser nula");
 
-        Assert.isTrue(login.getLoginUsuario().length() <= 50, "Login excede o limite de caracteres");
+        Assert.isTrue(login.getLogin().length() <= 50, "Login excede o limite de caracteres");
 
-        Login login1 = loginRepository.findByLogin(login.getLoginUsuario());
+        Login login1 = loginRepository.findByLogin(login.getLogin());
 
-        Assert.isTrue(login1 == null || login1.equals(login.getLoginUsuario()), "Login Já existente");
+        Assert.isTrue(login1 == null || login1.equals(login.getLogin()), "Login Já existente");
 
         this.loginRepository.save(login);
     }
@@ -36,10 +36,10 @@ public class LoginService {
     @Transactional(rollbackFor = Exception.class)
     public void editaLogin (final Long id,final Login login){
 
-        Assert.isTrue(!login.getLoginUsuario().equals(""), "Login não pode ser nulo");
+        Assert.isTrue(!login.getLogin().equals(""), "Login não pode ser nulo");
         Assert.isTrue(!login.getSenha().equals(""), "Senha não pode ser nula");
 
-        Assert.isTrue(login.getLoginUsuario().length() <= 50, "Login excede o limite de caracteres");
+        Assert.isTrue(login.getLogin().length() <= 50, "Login excede o limite de caracteres");
 
         final Login login1 = this.loginRepository.findById(id).orElse(null);
 

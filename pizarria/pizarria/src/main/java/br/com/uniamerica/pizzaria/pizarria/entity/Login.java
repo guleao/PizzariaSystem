@@ -14,8 +14,8 @@ public class Login {
     @Column(name = "id" , nullable = false, unique = true)
     private Long id;
 
-    @Column (name = "login_usuario")
-    private String loginUsuario;
+    @Column (name = "login")
+    private String login;
 
     @Column (name = "senha")
     private String senha;

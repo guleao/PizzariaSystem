@@ -10,6 +10,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/usuario")
 public class UsuarioController {
@@ -29,12 +31,12 @@ public class UsuarioController {
     }
 
     @GetMapping("/lista")
-    public ResponseEntity<?> listaCompleta() {
+    public ResponseEntity<List<UsuarioEntity>> listaCompleta() {
         return ResponseEntity.ok(this.usuarioRepository.findAll());
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrarUsuario (@RequestBody final UsuarioDTO usuario) {
+    public ResponseEntity<String> cadastrarUsuario (@RequestBody final UsuarioDTO usuario) {
         try {
             this.usuarioService.validaUsuario(usuario);
             return ResponseEntity.ok("Usuario cadastrado com sucesso.");
@@ -46,7 +48,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editarUsuario (@PathVariable("id") final Long id, @RequestBody final UsuarioEntity usuario) {
+    public ResponseEntity<String> editarUsuario (@PathVariable("id") final Long id, @RequestBody final UsuarioEntity usuario) {
         try {
             this.usuarioService.editaUsuario(id, usuario);
             return ResponseEntity.ok("Usuario atualizado com sucesso. ");
@@ -58,7 +60,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") final Long id) {
+    public ResponseEntity<String> delete(@PathVariable("id") final Long id) {
         try {
             this.usuarioService.deletaUsuario(id);
             return ResponseEntity.ok("Usuário excluido com sucesso.");

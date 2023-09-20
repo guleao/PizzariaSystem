@@ -9,6 +9,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/login")
 public class LoginController {
@@ -28,12 +30,12 @@ public class LoginController {
     }
 
     @GetMapping("/lista")
-    public ResponseEntity<?> listaCompleta() {
+    public ResponseEntity<List<Login>> listaCompleta() {
         return ResponseEntity.ok(this.loginRepository.findAll());
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrarLogin (@RequestBody final LoginDTO login) {
+    public ResponseEntity<String> cadastrarLogin (@RequestBody final LoginDTO login) {
         try {
             this.loginService.validaLogin(login);
             return ResponseEntity.ok("Login realizado com sucesso.");
@@ -45,7 +47,7 @@ public class LoginController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editarLogin (@PathVariable("id") final Long id, @RequestBody final Login login) {
+    public ResponseEntity<String> editarLogin (@PathVariable("id") final Long id, @RequestBody final Login login) {
         try {
           this.loginService.editaLogin(id,login);
             return ResponseEntity.ok("Login atualizado com sucesso. ");
@@ -57,7 +59,7 @@ public class LoginController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletarLogin(@PathVariable("id") final Long id) {
+    public ResponseEntity<String> deletarLogin(@PathVariable("id") final Long id) {
         try {
             this.loginService.deletaLogin(id);
             return ResponseEntity.ok("Registro excluido com sucesso.");

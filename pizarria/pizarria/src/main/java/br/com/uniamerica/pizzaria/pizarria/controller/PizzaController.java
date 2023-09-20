@@ -34,7 +34,7 @@ public class PizzaController {
 
 
     @PostMapping
-    public ResponseEntity<?> cadastrarPizza (@RequestBody final PizzaDTO pizza) {
+    public ResponseEntity<String> cadastrarPizza (@RequestBody final PizzaDTO pizza) {
         try {
             this.pizzaService.validaPizza(pizza);
             return ResponseEntity.ok("Pizza cadastrada com sucesso.");
@@ -46,7 +46,7 @@ public class PizzaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editarPizza (@PathVariable("id") final Long id, @RequestBody final PizzaEntity pizza) {
+    public ResponseEntity<String> editarPizza (@PathVariable("id") final Long id, @RequestBody final PizzaEntity pizza) {
         try {
             this.pizzaService.editaPizza(id, pizza);
             return ResponseEntity.ok("Pizza atualizada com sucesso. ");
@@ -58,7 +58,7 @@ public class PizzaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletarPizza (@PathVariable("id") final Long id) {
+    public ResponseEntity<String> deletarPizza (@PathVariable("id") final Long id) {
         try {
             this.pizzaService.deletaPizza(id);
             return ResponseEntity.ok("Pizza excluida com sucesso.");

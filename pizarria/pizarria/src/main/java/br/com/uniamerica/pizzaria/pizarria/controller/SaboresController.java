@@ -10,6 +10,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/sabores")
 public class SaboresController {
@@ -29,12 +31,12 @@ public class SaboresController {
     }
 
     @GetMapping("/lista")
-    public ResponseEntity<?> listaCompleta() {
+    public ResponseEntity<List<SaboresEntity>> listaCompleta() {
         return ResponseEntity.ok(this.saboresRepository.findAll());
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrar(@RequestBody final SaboresDTO sabores) {
+    public ResponseEntity<String> cadastrar(@RequestBody final SaboresDTO sabores) {
         try {
             this.saboresService.validaSabor(sabores);
             return ResponseEntity.ok("Sabor cadastrado com sucesso.");
@@ -46,7 +48,7 @@ public class SaboresController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editar(@PathVariable("id") final Long id, @RequestBody final SaboresEntity sabores) {
+    public ResponseEntity<String> editar(@PathVariable("id") final Long id, @RequestBody final SaboresEntity sabores) {
         try {
             this.saboresService.editaSabor(id, sabores);
             return ResponseEntity.ok("Sabor atualizado com sucesso. ");
@@ -58,7 +60,7 @@ public class SaboresController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(
+    public ResponseEntity<String> delete(
             @PathVariable("id") final Long id
     ) {
         try {

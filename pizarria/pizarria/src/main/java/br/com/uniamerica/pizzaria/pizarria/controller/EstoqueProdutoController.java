@@ -10,6 +10,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/estoqueproduto")
 public class EstoqueProdutoController {
@@ -29,12 +31,12 @@ public class EstoqueProdutoController {
     }
 
     @GetMapping("/lista")
-    public ResponseEntity<?> listaCompleta() {
+    public ResponseEntity<List<EstoqueProdutos>> listaCompleta() {
         return ResponseEntity.ok(this.estoqueProdutoRepository.findAll());
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrar(@RequestBody final EstoqueProdutoDTO estoqueProduto) {
+    public ResponseEntity<String> cadastrar(@RequestBody final EstoqueProdutoDTO estoqueProduto) {
         try {
             this.estoqueProdutoService.validaEstoque(estoqueProduto);
             return ResponseEntity.ok("Estoque cadastrado com sucesso.");
@@ -46,7 +48,7 @@ public class EstoqueProdutoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editar(@PathVariable("id") final Long id, @RequestBody final EstoqueProdutos estoqueProduto) {
+    public ResponseEntity<String> editar(@PathVariable("id") final Long id, @RequestBody final EstoqueProdutos estoqueProduto) {
         try {
             this.estoqueProdutoService.editaEstoque(id, estoqueProduto);
             return ResponseEntity.ok("Estoque atualizado com sucesso. ");
@@ -58,7 +60,7 @@ public class EstoqueProdutoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(
+    public ResponseEntity<String> delete(
             @PathVariable("id") final Long id
     ) {
         try {

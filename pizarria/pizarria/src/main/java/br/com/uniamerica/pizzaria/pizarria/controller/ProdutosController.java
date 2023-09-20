@@ -10,6 +10,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/produto")
 public class ProdutosController {
@@ -29,12 +31,12 @@ public class ProdutosController {
     }
 
     @GetMapping("/lista")
-    public ResponseEntity<?> listaCompleta() {
+    public ResponseEntity<List<ProdutosEntity>> listaCompleta() {
         return ResponseEntity.ok(this.produtoRepository.findAll());
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrar(@RequestBody final ProdutosDTO produto) {
+    public ResponseEntity<String> cadastrar(@RequestBody final ProdutosDTO produto) {
         try {
             this.produtoService.validarProduto(produto);
             return ResponseEntity.ok("Produto cadastrado com sucesso.");
@@ -46,7 +48,7 @@ public class ProdutosController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editar(@PathVariable("id") final Long id, @RequestBody final ProdutosEntity produto) {
+    public ResponseEntity<String> editar(@PathVariable("id") final Long id, @RequestBody final ProdutosEntity produto) {
         try {
             this.produtoService.editarProduto(id, produto);
             return ResponseEntity.ok("Produto atualizado com sucesso. ");
@@ -58,7 +60,7 @@ public class ProdutosController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") final Long id) {
+    public ResponseEntity<String> delete(@PathVariable("id") final Long id) {
         try {
             this.produtoService.deletarProduto(id);
             return ResponseEntity.ok("Produto excluido com sucesso.");
