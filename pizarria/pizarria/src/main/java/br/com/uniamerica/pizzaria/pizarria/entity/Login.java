@@ -19,4 +19,13 @@ public class Login {
 
     @Column (name = "senha")
     private String senha;
+
+    public Login(){
+
+    }
+    public Login(Long id, String loginUsuario, String senha) {
+        this.id = id;
+        this.loginUsuario = loginUsuario;
+        this.senha = senha;
+    }
 }
