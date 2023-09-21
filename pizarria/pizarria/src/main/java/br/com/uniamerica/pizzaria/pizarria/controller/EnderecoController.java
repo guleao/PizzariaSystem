@@ -22,15 +22,13 @@ public class EnderecoController {
     private EnderecoService enderecoService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findByIdPath(@PathVariable("id") final Long id) {
+    public ResponseEntity<Endereco> findByIdPath(@PathVariable("id") final Long id) {
         final Endereco endereco = this.enderecoRepository.findById(id).orElse(null);
-        return endereco == null
-                ? ResponseEntity.badRequest().body("Nenhum endereco encontrado para o ID = " + id + ".")
-                : ResponseEntity.ok(endereco);
+        return ResponseEntity.ok(endereco);
     }
 
     @GetMapping("/lista")
-    public ResponseEntity<List<Endereco>> listaCompleta() {
+    public ResponseEntity<List <Endereco>> listaCompleta() {
         return ResponseEntity.ok(this.enderecoRepository.findAll());
     }
 
@@ -40,9 +38,11 @@ public class EnderecoController {
             this.enderecoService.validaEndereco(enderecoDTO);
             return ResponseEntity.ok("Endereco cadastrado com sucesso.");
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
+            String errorMessage = "Error: " + e.getCause().getCause().getMessage();
+            return ResponseEntity.internalServerError().body(errorMessage);
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
 
@@ -52,9 +52,8 @@ public class EnderecoController {
             this.enderecoService.editaEndereco(id,endereco);
             return ResponseEntity.ok("Endereco atualizado com sucesso. ");
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
-        } catch (RuntimeException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
 
@@ -64,7 +63,13 @@ public class EnderecoController {
             this.enderecoService.deletaEndereco(id);
             return ResponseEntity.ok("Endereco excluido com sucesso.");
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
+
+    private String getErrorMessage(Exception e) {
+        return "Error: " + e.getMessage();
+    }
+
 }

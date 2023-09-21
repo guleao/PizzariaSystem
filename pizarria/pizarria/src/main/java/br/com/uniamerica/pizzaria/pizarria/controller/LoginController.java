@@ -22,11 +22,9 @@ public class LoginController {
     private LoginService loginService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findByIdPath(@PathVariable("id") final Long id) {
+    public ResponseEntity<Login> findByIdPath(@PathVariable("id") final Long id) {
         final Login login = this.loginRepository.findById(id).orElse(null);
-        return login == null
-                ? ResponseEntity.badRequest().body("Nenhum login encontrado para o ID = " + id + ".")
-                : ResponseEntity.ok(login);
+        return ResponseEntity.ok(login);
     }
 
     @GetMapping("/lista")
@@ -40,21 +38,19 @@ public class LoginController {
             this.loginService.validaLogin(login);
             return ResponseEntity.ok("Login realizado com sucesso.");
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<String> editarLogin (@PathVariable("id") final Long id, @RequestBody final Login login) {
         try {
-          this.loginService.editaLogin(id,login);
+            this.loginService.editaLogin(id,login);
             return ResponseEntity.ok("Login atualizado com sucesso. ");
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
-        } catch (RuntimeException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
 
@@ -64,7 +60,11 @@ public class LoginController {
             this.loginService.deletaLogin(id);
             return ResponseEntity.ok("Registro excluido com sucesso.");
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
+    }
+    private String getErrorMessage(Exception e) {
+        return "Error: " + e.getMessage();
     }
 }

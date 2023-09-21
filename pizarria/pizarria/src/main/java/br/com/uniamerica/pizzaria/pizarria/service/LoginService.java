@@ -44,7 +44,7 @@ public class LoginService {
         final Login login1 = this.loginRepository.findById(id).orElse(null);
 
         if (login1 == null || !login1.getId().equals(login.getId())){
-            throw new RuntimeException("Não foi possivel identificar o registro informado.");
+            throw new RegistroNaoEncontradoException("Não foi possivel identificar o registro informado.");
         }
 
         this.loginRepository.save(login);
@@ -55,10 +55,16 @@ public class LoginService {
         final Login login1 = this.loginRepository.findById(id).orElse(null);
 
         if (login1 == null || !login1.getId().equals(id)){
-            throw new RuntimeException("Não foi possivel encontrar o login.");
+            throw new RegistroNaoEncontradoException ("Não foi possivel encontrar o login.");
         }
 
         this.loginRepository.delete(login1);
+    }
+
+    public static class RegistroNaoEncontradoException extends RuntimeException {
+        public RegistroNaoEncontradoException(String message) {
+            super(message);
+        }
     }
 
 

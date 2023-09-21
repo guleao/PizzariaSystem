@@ -23,15 +23,13 @@ public class EstoqueProdutoController {
     private EstoqueProdutoService estoqueProdutoService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findByIdPath(@PathVariable("id") final Long id) {
+    public ResponseEntity<EstoqueProdutos> findByIdPath(@PathVariable("id") final Long id) {
         final EstoqueProdutos estoqueProduto = this.estoqueProdutoRepository.findById(id).orElse(null);
-        return estoqueProduto == null
-                ? ResponseEntity.badRequest().body("Nenhum item foi encontrado para o ID = " + id + ".")
-                : ResponseEntity.ok(estoqueProduto);
+        return ResponseEntity.ok(estoqueProduto);
     }
 
     @GetMapping("/lista")
-    public ResponseEntity<List<EstoqueProdutos>> listaCompleta() {
+    public ResponseEntity<List <EstoqueProdutos>> listaCompleta() {
         return ResponseEntity.ok(this.estoqueProdutoRepository.findAll());
     }
 
@@ -41,9 +39,8 @@ public class EstoqueProdutoController {
             this.estoqueProdutoService.validaEstoque(estoqueProduto);
             return ResponseEntity.ok("Estoque cadastrado com sucesso.");
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
 
@@ -53,9 +50,8 @@ public class EstoqueProdutoController {
             this.estoqueProdutoService.editaEstoque(id, estoqueProduto);
             return ResponseEntity.ok("Estoque atualizado com sucesso. ");
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
-        } catch (RuntimeException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
 
@@ -67,7 +63,13 @@ public class EstoqueProdutoController {
             this.estoqueProdutoService.deletarProduto(id);
             return ResponseEntity.ok("Estoque excluido com sucesso.");
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
+
+    private String getErrorMessage(Exception e) {
+        return "Error: " + e.getMessage();
+    }
+
 }

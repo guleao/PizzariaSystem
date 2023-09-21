@@ -18,7 +18,7 @@ public class EnderecoService {
     @Transactional(rollbackFor = Exception.class)
     public void validaEndereco (EnderecoDTO enderecoDTO){
 
-       var endereco = new Endereco();
+        var endereco = new Endereco();
 
         BeanUtils.copyProperties(enderecoDTO,endereco);
 
@@ -44,7 +44,7 @@ public class EnderecoService {
         final Endereco endereco1 = this.enderecoRepository.findById(id).orElse(null);
 
         if (endereco1 == null || !endereco1.getId().equals(endereco.getId())){
-            throw new RuntimeException("Não foi possivel identificar o registro informado.");
+            throw new RegistroNaoEncontradoException ("Não foi possivel identificar o registro informado.");
         }
 
         this.enderecoRepository.save(endereco);
@@ -56,9 +56,15 @@ public class EnderecoService {
         final Endereco endereco1 = this.enderecoRepository.findById(id).orElse(null);
 
         if (endereco1 == null || !endereco1.getId().equals(id)){
-            throw new RuntimeException("Não foi possivel encontrar o endereco informado.");
+            throw new RegistroNaoEncontradoException("Não foi possivel encontrar o endereco informado.");
         }
 
         this.enderecoRepository.delete(endereco1);
+    }
+
+    public static class RegistroNaoEncontradoException extends RuntimeException {
+        public RegistroNaoEncontradoException(String message) {
+            super(message);
+        }
     }
 }

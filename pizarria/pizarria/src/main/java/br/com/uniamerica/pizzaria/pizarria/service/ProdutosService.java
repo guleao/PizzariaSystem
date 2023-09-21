@@ -50,7 +50,7 @@ public class ProdutosService {
         final ProdutosEntity produtos1 = this.produtosRepository.findById(id).orElse(null);
 
         if (produtos1 == null || !produtos1.getId().equals(produtos1.getId())){
-            throw new RuntimeException("Não foi possivel identificar o registro informado.");
+            throw new RegistroNaoEncontradoException("Não foi possivel identificar o registro informado.");
         }
 
         this.produtosRepository.save(produtos);
@@ -61,8 +61,14 @@ public class ProdutosService {
         final ProdutosEntity produto1 = this.produtosRepository.findById(id).orElse(null);
 
         if (produto1 == null || !produto1.getId().equals(id)){
-            throw new RuntimeException("Não foi possivel identificar o produto informado.");
+            throw new RegistroNaoEncontradoException("Não foi possivel identificar o produto informado.");
         }
         this.produtosRepository.delete(produto1);
+    }
+
+    public static class RegistroNaoEncontradoException extends RuntimeException {
+        public RegistroNaoEncontradoException(String message) {
+            super(message);
+        }
     }
 }

@@ -78,4 +78,7 @@ public class PedidoEntity {
         this.dataPedido = dataPedido;
     }
 
+    public boolean isEntregue() {
+        return false;
+    }
 }

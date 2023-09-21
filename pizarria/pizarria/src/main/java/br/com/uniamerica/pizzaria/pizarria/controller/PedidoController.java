@@ -24,11 +24,9 @@ public class PedidoController {
     private PedidosService pedidoService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findByIdPath(@PathVariable("id") final Long id) {
+    public ResponseEntity<PedidoEntity> findByIdPath(@PathVariable("id") final Long id) {
         final PedidoEntity pedido = this.pedidoRepository.findById(id).orElse(null);
-        return pedido == null
-                ? ResponseEntity.badRequest().body("Nenhum pedido encontrado para o ID = " + id + ".")
-                : ResponseEntity.ok(pedido);
+        return ResponseEntity.ok(pedido);
     }
 
     @GetMapping("/lista")
@@ -36,15 +34,18 @@ public class PedidoController {
         return ResponseEntity.ok(this.pedidoRepository.findAll());
     }
 
+
+
+    //    localhost:8080/api/pedido/totaldia?data=2023-09-18
     @GetMapping("/totaldia")
     public RelatorioDiaDTO getTotalPedidosPorData(@RequestParam("data") LocalDate data) {
-        Long totalPedidos = pedidoService.TotalPedidosPorData(data);
-        Long totalPedidosCartao = pedidoService.TotalPagamentoCartao(data);
-        Long totalPedidosDinheiro = pedidoService.TotalPagamentoDinheiro(data);
-        Long totalPedidosDelivery = pedidoService.TotalPedidosDelivery(data);
-        Long totalPedidosBalcao = pedidoService.TotalPedidosBalcao(data);
-        Long totalPedidosPagos = pedidoService.TotalPagos(data);
-        Long totalPedidosCancelados = pedidoService.TotalCancelados(data);
+        Long totalPedidos = pedidoService.totalPedidosPorData(data);
+        Long totalPedidosCartao = pedidoService.totalPagamentoCartao(data);
+        Long totalPedidosDinheiro = pedidoService.totalPagamentoDinheiro(data);
+        Long totalPedidosDelivery = pedidoService.totalPedidosDelivery(data);
+        Long totalPedidosBalcao = pedidoService.totalPedidosBalcao(data);
+        Long totalPedidosPagos = pedidoService.totalPagos(data);
+        Long totalPedidosCancelados = pedidoService.totalCancelados(data);
 
         RelatorioDiaDTO relatorioDiaDTO = new RelatorioDiaDTO();
         relatorioDiaDTO.setTotalPedidos(totalPedidos);
@@ -59,14 +60,27 @@ public class PedidoController {
         return relatorioDiaDTO;
     }
 
-    @GetMapping ("/comanda/{id}")
-    public ResponseEntity <?> findById (@PathVariable ("id") Long id){
+    @GetMapping ("/comandacozinha/{id}")
+    public ResponseEntity <String> comandaCozinha (@PathVariable ("id") Long id){
         try {
-            PedidoEntity pedido = pedidoRepository.getById(id);
-            pedidoService.salvarPedidoEncerrado(pedido);
+            PedidoEntity pedido = pedidoService.findPedidoById(id);
+            pedidoService.gerarComandaCozinha(pedido);
             return ResponseEntity.ok("comanda gerada com sucesso");
         }catch (Exception e){
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
+        }
+    }
+
+    @GetMapping ("/comandaentregue/{id}")
+    public ResponseEntity <String> comandaEntrega (@PathVariable ("id") Long id){
+        try {
+            PedidoEntity pedido = pedidoService.findPedidoById(id);
+            pedidoService.gerarComandaFinalizado(pedido);
+            return ResponseEntity.ok("comanda gerada com sucesso");
+        }catch (Exception e){
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
 
@@ -76,9 +90,8 @@ public class PedidoController {
             this.pedidoService.validaPedido(pedido);
             return ResponseEntity.ok("Pedido realizado com sucesso.");
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
 
@@ -88,9 +101,25 @@ public class PedidoController {
             this.pedidoService.editaPedido(pedido);
             return ResponseEntity.ok("Pedido atualizado com sucesso. ");
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
-        } catch (RuntimeException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
+        }
+    }
+
+    @PutMapping("/finalizapedido/{id}")
+    public ResponseEntity<String> finalizaPedido(@PathVariable ("id") final Long id, @RequestBody final PedidoEntity pedido){
+        try {
+            final PedidoEntity pedido1 = this.pedidoRepository.findById(id).orElse(null);
+
+            if (pedido1 == null || !pedido1.getId().equals(pedido.getId())){
+                return ResponseEntity.internalServerError().body("Nao foi posivel identificar o pedido informado");
+            }
+            this.pedidoService.finalizaPedido(pedido);
+            return ResponseEntity.ok("Pedido finalizado");
+        }
+        catch (DataIntegrityViolationException e){
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
 
@@ -100,7 +129,12 @@ public class PedidoController {
             this.pedidoService.deletarPedido(id);
             return ResponseEntity.ok("Pedido excluido com sucesso.");
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
+    }
+
+    private String getErrorMessage(Exception e) {
+        return "Error: " + e.getMessage();
     }
 }

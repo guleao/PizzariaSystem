@@ -14,9 +14,7 @@
 	<name>pizarria</name>
 	<description>Pizzaria feita em spring boot</description>
 	<properties>
-		<sonar.binaries>${project.basedir}/../target/classes</sonar.binaries>
 		<java.version>17</java.version>
-		<argLine>17</argLine>
 	</properties>
 	<dependencies>
 		<dependency>

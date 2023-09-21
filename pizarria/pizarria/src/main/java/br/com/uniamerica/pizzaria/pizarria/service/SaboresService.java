@@ -40,7 +40,7 @@ public class SaboresService {
         final SaboresEntity sabores1 = this.saboresRepository.findById(id).orElse(null);
 
         if (sabores1 == null || !sabores1.getId().equals(sabores.getId())){
-            throw new RuntimeException("Não foi possivel identificar o registro informado.");
+            throw new RegistroNaoEncontradoException("Não foi possivel identificar o registro informado.");
         }
 
         this.saboresRepository.save(sabores);
@@ -51,9 +51,15 @@ public class SaboresService {
         final SaboresEntity sabores1 = this.saboresRepository.findById(id).orElse(null);
 
         if (sabores1 == null || !sabores1.getId().equals(id)){
-            throw new RuntimeException("Não foi possivel encontrar o sabor selecionado.");
+            throw new RegistroNaoEncontradoException("Não foi possivel encontrar o sabor selecionado.");
         }
 
         this.saboresRepository.delete(sabores1);
+    }
+
+    public static class RegistroNaoEncontradoException extends RuntimeException {
+        public RegistroNaoEncontradoException(String message) {
+            super(message);
+        }
     }
 }

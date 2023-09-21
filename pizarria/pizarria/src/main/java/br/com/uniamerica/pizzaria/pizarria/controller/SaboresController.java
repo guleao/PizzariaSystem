@@ -23,15 +23,13 @@ public class SaboresController {
     private SaboresService saboresService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findByIdPath(@PathVariable("id") final Long id) {
+    public ResponseEntity<SaboresEntity> findByIdPath(@PathVariable("id") final Long id) {
         final SaboresEntity sabores = this.saboresRepository.findById(id).orElse(null);
-        return sabores == null
-                ? ResponseEntity.badRequest().body("Nenhum sabor encontrado para o ID = " + id + ".")
-                : ResponseEntity.ok(sabores);
+        return ResponseEntity.ok(sabores);
     }
 
     @GetMapping("/lista")
-    public ResponseEntity<List<SaboresEntity>> listaCompleta() {
+    public ResponseEntity<List <SaboresEntity>> listaCompleta() {
         return ResponseEntity.ok(this.saboresRepository.findAll());
     }
 
@@ -41,9 +39,8 @@ public class SaboresController {
             this.saboresService.validaSabor(sabores);
             return ResponseEntity.ok("Sabor cadastrado com sucesso.");
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
 
@@ -53,9 +50,8 @@ public class SaboresController {
             this.saboresService.editaSabor(id, sabores);
             return ResponseEntity.ok("Sabor atualizado com sucesso. ");
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
-        } catch (RuntimeException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
 
@@ -67,8 +63,12 @@ public class SaboresController {
             this.saboresService.deletaSabor(id);
             return ResponseEntity.ok("Sabor excluido com sucesso.");
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
-}
 
+    private String getErrorMessage(Exception e) {
+        return "Error: " + e.getMessage();
+    }
+}

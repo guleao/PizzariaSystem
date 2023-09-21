@@ -25,7 +25,6 @@ public class UsuarioService {
         Assert.isTrue(usuario.getNomeUsuario().length() <= 100, "Nome de usuário acima do limite de caracteres");
 
         Assert.isTrue(!usuario.getTelefone().equals(""), "Telefone não pode ser nulo");
-//        Assert.isTrue(!usuario.getEnderecos().equals(""), "Endereco não pode ser nulo");
 
         UsuarioEntity usuario1 = usuarioRepository.findByTelefone(usuario.getTelefone());
 
@@ -44,7 +43,7 @@ public class UsuarioService {
         final UsuarioEntity usuario1 = this.usuarioRepository.findById(id).orElse(null);
 
         if (usuario1 == null || !usuario1.getId().equals(usuario.getId())){
-            throw new RuntimeException("Não foi possivel identificar o registro informado.");
+            throw new RegistroNaoEncontradoException("Não foi possivel identificar o registro informado.");
         }
 
 
@@ -57,9 +56,15 @@ public class UsuarioService {
         final UsuarioEntity usuario1 = this.usuarioRepository.findById(id).orElse(null);
 
         if (usuario1 == null || !usuario1.getId().equals(id)){
-            throw new RuntimeException("Não foi possivel encontrar o usuário.");
+            throw new RegistroNaoEncontradoException("Não foi possivel encontrar o usuário.");
         }
 
         this.usuarioRepository.delete(usuario1);
+    }
+
+    public static class RegistroNaoEncontradoException extends RuntimeException {
+        public RegistroNaoEncontradoException(String message) {
+            super(message);
+        }
     }
 }

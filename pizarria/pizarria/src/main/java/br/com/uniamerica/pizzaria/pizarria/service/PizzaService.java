@@ -10,9 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 public class PizzaService {
     @Autowired
@@ -76,7 +73,7 @@ public class PizzaService {
         final PizzaEntity pizza1 = this.pizzaRepository.findById(id).orElse(null);
 
         if (pizza1 == null || !pizza1.getId().equals(pizza.getId())){
-            throw new RuntimeException("Não foi possivel identificar o registro informado.");
+            throw new RegistroNaoEncontradoException("Não foi possivel identificar o registro informado.");
         }
 
         float total;
@@ -93,8 +90,14 @@ public class PizzaService {
         final PizzaEntity pizza1 = this.pizzaRepository.findById(id).orElse(null);
 
         if (pizza1 == null || !pizza1.getId().equals(id)){
-            throw new RuntimeException("Não foi possivel encontrar a pizza.");
+            throw new RegistroNaoEncontradoException("Não foi possivel encontrar a pizza.");
         }
         this.pizzaRepository.delete(pizza1);
+    }
+
+    public static class RegistroNaoEncontradoException extends RuntimeException {
+        public RegistroNaoEncontradoException(String message) {
+            super(message);
+        }
     }
 }

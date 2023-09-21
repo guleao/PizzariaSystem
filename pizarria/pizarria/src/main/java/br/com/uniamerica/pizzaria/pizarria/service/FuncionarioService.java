@@ -36,7 +36,7 @@ public class FuncionarioService {
         final FuncionarioEntity funcionario1 = this.funcionarioRepository.findById(id).orElse(null);
 
         if (funcionario1 == null || !funcionario1.getId().equals(funcionarioEntity.getId())){
-            throw new RuntimeException("Não foi possivel identificar o registro informado.");
+            throw new RegistroNaoEncontradoException("Não foi possivel identificar o registro informado.");
         }
 
         this.funcionarioRepository.save(funcionarioEntity);
@@ -48,9 +48,14 @@ public class FuncionarioService {
         final FuncionarioEntity funcionario1 = this.funcionarioRepository.findById(id).orElse(null);
 
         if (funcionario1 == null || !funcionario1.getId().equals(id)){
-            throw new RuntimeException("Não foi possivel encontrar o funcionário.");
+            throw new RegistroNaoEncontradoException ("Não foi possivel encontrar o funcionário.");
         }
 
         this.funcionarioRepository.delete(funcionario1);
+    }
+    public static class RegistroNaoEncontradoException extends RuntimeException {
+        public RegistroNaoEncontradoException(String message) {
+            super(message);
+        }
     }
 }

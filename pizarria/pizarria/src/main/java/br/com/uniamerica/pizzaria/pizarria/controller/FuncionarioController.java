@@ -22,15 +22,13 @@ public class FuncionarioController {
     private FuncionarioService funcionarioService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findByIdPath(@PathVariable("id") final Long id) {
+    public ResponseEntity<FuncionarioEntity> findByIdPath(@PathVariable("id") final Long id) {
         final FuncionarioEntity funcionario = this.funcionarioRepository.findById(id).orElse(null);
-        return funcionario == null
-                ? ResponseEntity.badRequest().body("Nenhum funcionário encontrado para o ID = " + id + ".")
-                : ResponseEntity.ok(funcionario);
+        return ResponseEntity.ok(funcionario);
     }
 
     @GetMapping("/lista")
-    public ResponseEntity<List<FuncionarioEntity>> listaCompleta() {
+    public ResponseEntity<List <FuncionarioEntity>> listaCompleta() {
         return ResponseEntity.ok(this.funcionarioRepository.findAll());
     }
 
@@ -40,9 +38,8 @@ public class FuncionarioController {
             this.funcionarioService.validaFuncionario(funcionarioDTO);
             return ResponseEntity.ok("Funcionario cadastrado com sucesso.");
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
 
@@ -52,9 +49,8 @@ public class FuncionarioController {
             this.funcionarioService.editaFuncionario(id, funcionario);
             return ResponseEntity.ok("Funcionario atualizado com sucesso. ");
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
-        } catch (RuntimeException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
 
@@ -64,7 +60,12 @@ public class FuncionarioController {
             this.funcionarioService.deletarFuncionario(id);
             return ResponseEntity.ok("Funcionário excluido com sucesso.");
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
+    }
+
+    private String getErrorMessage(Exception e) {
+        return "Error: " + e.getMessage();
     }
 }

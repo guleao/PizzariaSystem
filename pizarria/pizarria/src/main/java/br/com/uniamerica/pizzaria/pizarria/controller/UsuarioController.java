@@ -23,11 +23,9 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findByIdPath(@PathVariable("id") final Long id) {
+    public ResponseEntity<UsuarioEntity> findByIdPath(@PathVariable("id") final Long id) {
         final UsuarioEntity usuario = this.usuarioRepository.findById(id).orElse(null);
-        return usuario == null
-                ? ResponseEntity.badRequest().body("Nenhum usuário encontrado para o ID = " + id + ".")
-                : ResponseEntity.ok(usuario);
+        return ResponseEntity.ok(usuario);
     }
 
     @GetMapping("/lista")
@@ -41,9 +39,8 @@ public class UsuarioController {
             this.usuarioService.validaUsuario(usuario);
             return ResponseEntity.ok("Usuario cadastrado com sucesso.");
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
 
@@ -53,9 +50,8 @@ public class UsuarioController {
             this.usuarioService.editaUsuario(id, usuario);
             return ResponseEntity.ok("Usuario atualizado com sucesso. ");
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
-        } catch (RuntimeException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
 
@@ -65,7 +61,12 @@ public class UsuarioController {
             this.usuarioService.deletaUsuario(id);
             return ResponseEntity.ok("Usuário excluido com sucesso.");
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
+    }
+
+    private String getErrorMessage(Exception e) {
+        return "Error: " + e.getMessage();
     }
 }
