@@ -34,11 +34,12 @@ public class Endereco {
     public Endereco(){
 
     }
-    public Endereco(Long id, String rua, String bairro, int numCasa, String cep) {
+    public Endereco(Long id, String rua, String bairro, int numCasa, String cep, String observ) {
         this.id = id;
         this.rua = rua;
         this.bairro = bairro;
         this.numCasa = numCasa;
         this.cep = cep;
+        this.observ = observ;
     }
 }

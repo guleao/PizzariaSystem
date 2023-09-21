@@ -57,4 +57,6 @@ public class EnderecoTestDTO {
         endereco.setObserv("Perto do Poste");
         Assertions.assertEquals("Perto do Poste", endereco.getObserv());
     }
+
+
 }

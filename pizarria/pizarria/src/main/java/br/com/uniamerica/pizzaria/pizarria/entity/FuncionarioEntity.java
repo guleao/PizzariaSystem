@@ -15,4 +15,13 @@ public class FuncionarioEntity {
 
     @Column (name = "nome_funcionario")
     private String nomeFuncionario;
+
+    public FuncionarioEntity(){
+
+    }
+
+    public FuncionarioEntity(Long id, String nomeFuncionario) {
+        this.id = id;
+        this.nomeFuncionario = nomeFuncionario;
+    }
 }

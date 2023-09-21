@@ -9,7 +9,6 @@ import lombok.Setter;
 @Getter @Setter
 public class EstoqueProdutos {
     @Id
-
     @GeneratedValue(strategy =  GenerationType.AUTO)
     @Column(name = "id" , nullable = false, unique = true)
     private Long id;

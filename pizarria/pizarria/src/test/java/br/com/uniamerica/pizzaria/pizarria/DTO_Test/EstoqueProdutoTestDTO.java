@@ -3,7 +3,9 @@ package br.com.uniamerica.pizzaria.pizarria.DTO_Test;
 import br.com.uniamerica.pizzaria.pizarria.dto.EstoqueProdutoDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@SpringBootTest
 public class EstoqueProdutoTestDTO {
 
     EstoqueProdutoDTO estoqueProduto = new EstoqueProdutoDTO(4L,40,"Pizza Grande");
@@ -28,8 +30,16 @@ public class EstoqueProdutoTestDTO {
     }
 
     @Test
-    void testComparacaoNomes(){
+    void testComparacao(){
         EstoqueProdutoDTO estoqueProduto3 = new EstoqueProdutoDTO(4L,40,"Pizza Grande");
-        Assertions.assertEquals(estoqueProduto2, estoqueProduto3);
+        Assertions.assertEquals(estoqueProduto, estoqueProduto3);
     }
+
+    @Test
+    void testConstrutorVazio(){
+        EstoqueProdutoDTO estoqueProduto4 = new EstoqueProdutoDTO();
+        Assertions.assertEquals(estoqueProduto2, estoqueProduto4);
+    }
+
+
 }
