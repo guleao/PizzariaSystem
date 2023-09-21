@@ -5,7 +5,7 @@ import br.com.uniamerica.pizzaria.pizarria.entity.EstoqueProdutos;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class ProdutoDTO {
+public class ProdutoDTOTest {
 
 
     EstoqueProdutos estoque = new EstoqueProdutos(1L, 15, "Sprite");

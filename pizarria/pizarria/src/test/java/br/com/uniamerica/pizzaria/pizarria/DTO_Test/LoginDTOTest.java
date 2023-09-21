@@ -1,11 +1,10 @@
 package br.com.uniamerica.pizzaria.pizarria.DTO_Test;
 
 import br.com.uniamerica.pizzaria.pizarria.dto.LoginDTO;
-import br.com.uniamerica.pizzaria.pizarria.entity.Login;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class LoginTestDTO {
+public class LoginDTOTest {
 
     LoginDTO login = new LoginDTO();
     LoginDTO login2 = new LoginDTO(1L,"Jorginho","password");

@@ -1,17 +1,15 @@
 package br.com.uniamerica.pizzaria.pizarria.DTO_Test;
 import br.com.uniamerica.pizzaria.pizarria.dto.PedidoDTO;
 import br.com.uniamerica.pizzaria.pizarria.entity.*;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PedidoTestDTO {
+public class PedidoDTOTest {
 
     private UsuarioEntity usuario;
 

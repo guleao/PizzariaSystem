@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class EstoqueProdutoTestDTO {
+public class EstoqueProdutoDTOTest {
 
     EstoqueProdutoDTO estoqueProduto = new EstoqueProdutoDTO(4L,40,"Pizza Grande");
     EstoqueProdutoDTO estoqueProduto2 = new EstoqueProdutoDTO();

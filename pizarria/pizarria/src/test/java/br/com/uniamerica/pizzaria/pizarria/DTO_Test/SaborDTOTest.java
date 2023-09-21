@@ -4,7 +4,7 @@ import br.com.uniamerica.pizzaria.pizarria.dto.SaboresDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class SaborTestDTO {
+public class SaborDTOTest {
 
     SaboresDTO sabor = new SaboresDTO(1L, "Calabresa");
     SaboresDTO saborVazio = new SaboresDTO();

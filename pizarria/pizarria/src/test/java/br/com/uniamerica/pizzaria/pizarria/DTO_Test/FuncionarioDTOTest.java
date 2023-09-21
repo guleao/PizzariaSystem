@@ -4,7 +4,7 @@ import br.com.uniamerica.pizzaria.pizarria.dto.FuncionarioDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class FuncionarioTestDTO {
+public class FuncionarioDTOTest {
 
     FuncionarioDTO funcionario = new FuncionarioDTO(2L,"Joao");
     FuncionarioDTO funcionario4 = new FuncionarioDTO();

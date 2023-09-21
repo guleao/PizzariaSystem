@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class EnderecoTestDTO {
+public class EnderecoDTOTest {
 
     EnderecoDTO endereco2 = new EnderecoDTO(1L,"Rua Das Pedras","Porto Meira",1,"85854000","Perto da Technos");
     EnderecoDTO endereco = new EnderecoDTO();

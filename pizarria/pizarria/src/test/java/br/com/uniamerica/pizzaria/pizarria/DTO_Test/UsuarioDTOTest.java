@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class UsuarioTestDTO {
+class UsuarioDTOTest {
 
     UsuarioDTO usuario = new UsuarioDTO("Gustavo");
     UsuarioDTO usuario4 = new UsuarioDTO();

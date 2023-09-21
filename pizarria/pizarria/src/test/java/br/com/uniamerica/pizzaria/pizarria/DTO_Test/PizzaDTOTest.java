@@ -3,14 +3,13 @@ package br.com.uniamerica.pizzaria.pizarria.DTO_Test;
 import br.com.uniamerica.pizzaria.pizarria.dto.PizzaDTO;
 import br.com.uniamerica.pizzaria.pizarria.entity.SaboresEntity;
 import br.com.uniamerica.pizzaria.pizarria.entity.Tamanho;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PizzaTestDTO {
+public class PizzaDTOTest {
 
     private List<SaboresEntity> saborList = new ArrayList<>();
     PizzaDTO pizza = new PizzaDTO(1L, saborList,40, 3, Tamanho.P);
