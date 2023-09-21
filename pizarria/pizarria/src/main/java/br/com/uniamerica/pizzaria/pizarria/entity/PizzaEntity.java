@@ -46,4 +46,16 @@ public class PizzaEntity {
 //    @JoinColumn(name = "pedido_id")
 //    private PedidoEntity pedido;
 
+
+    public PizzaEntity(){
+
+    }
+
+    public PizzaEntity(Long id, List<SaboresEntity> sabores, float precoPizza, int quantPizza, Tamanho tamanho) {
+        this.id = id;
+        this.sabores = sabores;
+        this.precoPizza = precoPizza;
+        this.quantPizza = quantPizza;
+        this.tamanho = tamanho;
+    }
 }

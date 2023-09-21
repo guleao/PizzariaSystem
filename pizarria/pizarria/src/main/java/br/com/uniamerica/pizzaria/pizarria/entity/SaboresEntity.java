@@ -16,4 +16,11 @@ public class SaboresEntity {
     @Column (name = "nome_sabor")
     private String nomeSabor;
 
+    public SaboresEntity(){
+
+    }
+    public SaboresEntity(Long id, String nomeSabor) {
+        this.id = id;
+        this.nomeSabor = nomeSabor;
+    }
 }

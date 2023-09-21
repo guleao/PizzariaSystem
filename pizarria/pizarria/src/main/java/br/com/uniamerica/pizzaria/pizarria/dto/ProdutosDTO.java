@@ -13,4 +13,15 @@ public class ProdutosDTO {
     private EstoqueProdutos estoque;
 
     private float totalProduto;
+
+    public ProdutosDTO(){
+
+    }
+
+    public ProdutosDTO(Long id, int quantProd, EstoqueProdutos estoque, float totalProduto) {
+        this.id = id;
+        this.quantProd = quantProd;
+        this.estoque = estoque;
+        this.totalProduto = totalProduto;
+    }
 }

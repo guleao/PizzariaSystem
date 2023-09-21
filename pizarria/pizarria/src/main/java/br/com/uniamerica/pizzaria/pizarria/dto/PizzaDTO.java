@@ -17,4 +17,15 @@ public class PizzaDTO {
     private int quantPizza;
 
     private Tamanho tamanho;
+
+    public PizzaDTO(){
+
+    }
+    public PizzaDTO(Long id, List<SaboresEntity> sabores, float precoPizza, int quantPizza, Tamanho tamanho) {
+        this.id = id;
+        this.sabores = sabores;
+        this.precoPizza = precoPizza;
+        this.quantPizza = quantPizza;
+        this.tamanho = tamanho;
+    }
 }

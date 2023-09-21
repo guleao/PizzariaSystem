@@ -22,4 +22,14 @@ public class ProdutosEntity {
 
     @Column (name = "total_produto")
     private float totalProduto;
+
+    public ProdutosEntity(){
+
+    }
+    public ProdutosEntity(Long id, int quantProd, EstoqueProdutos estoque, float totalProduto) {
+        this.id = id;
+        this.quantProd = quantProd;
+        this.estoque = estoque;
+        this.totalProduto = totalProduto;
+    }
 }
